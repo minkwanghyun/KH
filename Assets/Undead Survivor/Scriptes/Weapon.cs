@@ -7,6 +7,15 @@ public class Weapon : MonoBehaviour
     public float damage;
     public int count;
     public float speed;
+
+    float timer;//타이머
+    Player player;
+
+    void Awake()
+    {
+        player = GetComponentInParent<Player>();
+    }
+
     void Start()
     {
         Init();
@@ -20,6 +29,13 @@ public class Weapon : MonoBehaviour
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
             default:
+                timer += timer.deltaTime;//'deltaTime' 반복해서 더해줌
+
+                if (timer > speed)
+                {
+                    timer = 0f;//'speed'보다 커질 시 초기화하면서 발사
+                    Fire();
+                }
                 break;
         }
         // Test Code
@@ -47,6 +63,7 @@ public class Weapon : MonoBehaviour
                 Batch();
                 break;
             default:
+                speed = 0.3f;//연사속도
                 break;
         }
     }
@@ -73,5 +90,15 @@ public class Weapon : MonoBehaviour
             bullet.Translate(bullet.up * 1.5f, Space.World);
             bullet.GetComponent<Bullet>().Init(damage, -1);
         }
+    }
+
+    
+    void Fire()//발사 함수
+    {
+        if (!player.scanner.nearestTarget)//바로 스캐너로 접근해서 위치 파악 불가하므로 플레이어 스크립트에 추가해서 호출
+            return;
+
+        Transform bullet = GameManager.instance.pool.Get(prefabId).transform;
+        bullet.position = transform.position;
     }
 }
