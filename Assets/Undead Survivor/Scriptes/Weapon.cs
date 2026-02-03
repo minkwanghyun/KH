@@ -29,7 +29,7 @@ public class Weapon : MonoBehaviour
                 transform.Rotate(Vector3.back * speed * Time.deltaTime);
                 break;
             default:
-                timer += timer.deltaTime;//'deltaTime' 반복해서 더해줌
+                timer += Time.deltaTime;//'deltaTime' 반복해서 더해줌
 
                 if (timer > speed)
                 {
