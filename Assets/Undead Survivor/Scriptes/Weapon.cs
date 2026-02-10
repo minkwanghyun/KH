@@ -13,7 +13,7 @@ public class Weapon : MonoBehaviour
 
     void Awake()
     {
-        player = GetComponentInParent<Player>();
+        player = GetComponentInParent<Player>();//GetComponentInParent: 부모 컴포넌트 가져오기
     }
 
     void Start()
